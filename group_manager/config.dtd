@@ -1,0 +1,13 @@
+<!ELEMENT config (dc, files, ignore?)>
+        <!ELEMENT dc (address,username,password,root)>
+        <!ELEMENT address (#PCDATA)>
+        <!ELEMENT username (#PCDATA)>
+        <!ELEMENT password (#PCDATA)>
+        <!ELEMENT ou (#PCDATA)>
+        <!ELEMENT organisation (#PCDATA)>
+        <!ELEMENT root (ou)>
+        <!ELEMENT ignore (ou?+,organisation?+)>
+
+        <!ELEMENT files (stamdata3)>
+        <!ELEMENT stamdata3 (#PCDATA)>
+

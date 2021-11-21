@@ -1,0 +1,6 @@
+<!ELEMENT groups (group+)>
+        <!ELEMENT group (main?+,exclusive?+,all?+)>
+        <!ATTLIST group dn CDATA #REQUIRED>
+        <!ELEMENT exclusive (#PCDATA)>
+        <!ELEMENT all (#PCDATA)>
+        <!ELEMENT main (#PCDATA)>
