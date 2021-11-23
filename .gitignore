@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-groups.xml
-config.xml
+groups*.xml
+config*.xml

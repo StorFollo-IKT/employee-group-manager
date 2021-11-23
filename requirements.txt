@@ -1,0 +1,2 @@
+stamdata3~=1.0.1
+adtools~=1.1
