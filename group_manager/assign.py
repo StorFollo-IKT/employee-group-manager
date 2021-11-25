@@ -1,10 +1,11 @@
 import os.path
 from typing import List
 
-from XMLConfig import XMLConfig, XMLGroupConfig
 from adtools import utils
 from adtools.objects import User
-from group_manager.GroupAssignment import GroupAssignment
+
+from GroupAssignment import GroupAssignment
+from XMLConfig import XMLConfig, XMLGroupConfig
 from stamdata3.StamdataExceptions import ResourceNotFound
 from stamdata3.stamdata3 import Stamdata3
 
