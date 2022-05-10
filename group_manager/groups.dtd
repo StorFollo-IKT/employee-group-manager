@@ -3,5 +3,7 @@
         <!ATTLIST group dn CDATA #REQUIRED>
         <!ELEMENT exclusive (#PCDATA)>
         <!ELEMENT all (#PCDATA)>
+        <!ATTLIST all PostCode CDATA>
         <!ELEMENT main (#PCDATA)>
+        <!ATTLIST main PostCode CDATA>
         <!ELEMENT everyone EMPTY>
