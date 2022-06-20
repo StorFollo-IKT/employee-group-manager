@@ -18,7 +18,10 @@ stamdata = Stamdata3(config.file('files/stamdata3'))
 org_ignore = config.list('ignore/organisation')
 ou_ignore = config.list('ignore/ou')
 
-assignment = GroupAssignment()
+log_file = os.path.join(os.path.dirname(__file__), 'logs',
+                        'Group assignment %s.log' % datetime.now().strftime('%Y-%m-%d %H%M'))
+
+assignment = GroupAssignment(log_file)
 
 groups = group_config.attribute_list('group', 'dn')
 groups_obj = assignment.resolve_groups(groups)
@@ -41,12 +44,13 @@ for ou in ous:
         continue
     for user in users:
         if utils.ou(user['dn']) in ou_ignore:
+            assignment.ad.log('Ignoring %s in ignored OU' % user['dn'])
             continue
 
         try:
             resource = stamdata.resource(user.numeric('employeeID'))
         except ResourceNotFound as e:
-            print('User %s is not employed, remove all managed groups' % (
+            assignment.ad.log('User %s is not employed, remove all managed groups' % (
                 user['attributes']['displayName']))
 
             assignment.remove_all_groups(user)
@@ -55,7 +59,7 @@ for ou in ous:
         try:
             main = resource.main_position()
         except AttributeError as e:
-            print(e)
+            assignment.ad.log(e)
             continue
 
         org = main.relation('ORGANIZATIONAL_UNIT')
