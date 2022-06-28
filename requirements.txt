@@ -1,3 +1,3 @@
-stamdata3~=1.0.1
-adtools~=1.1
+stamdata3~=1.0
+adtools~=1.2
 lxml
