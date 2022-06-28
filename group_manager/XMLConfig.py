@@ -26,6 +26,14 @@ class XMLConfig:
 
 
 class XMLGroupConfig(XMLConfig):
-    def organisation_groups(self, organisation, relation_type='main'):
-        groups = self.config.findall('group/%s[.="%s"]/..' % (relation_type, organisation))
+    def organisation_groups(self, organisation, relation_type='main', post_code=None):
+        groups = self.config.xpath(
+            'group/%s[.="%s" and not(@PostCode)]/..' % (relation_type, organisation))
+        if post_code:
+            groups += self.config.xpath(
+                'group/%s[.="%s" and @PostCode="%s"]/..' % (relation_type, organisation, post_code))
+
+        if not groups:
+            return []
+
         return list(map(lambda element: element.get('dn'), groups))

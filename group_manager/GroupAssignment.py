@@ -46,11 +46,11 @@ class GroupAssignment:
         groups += self.group_config.attribute_list('group/everyone/..', 'dn')
 
         main_org = main_employment.relation('ORGANIZATIONAL_UNIT').value
-        groups += self.group_config.organisation_groups(main_org, 'main')
+        groups += self.group_config.organisation_groups(main_org, 'main', main_employment.post_code)
 
         for employment in other_employments:
             org = employment.relation('ORGANIZATIONAL_UNIT').value
-            groups += self.group_config.organisation_groups(org, 'all')
+            groups += self.group_config.organisation_groups(org, 'all', employment.post_code)
 
         return self.resolve_groups(groups)
 
