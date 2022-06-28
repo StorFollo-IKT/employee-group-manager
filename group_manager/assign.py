@@ -37,7 +37,8 @@ for ou in ous:
         attributes=['memberOf',
                     'employeeId',
                     'displayName',
-                    'samAccountName'
+                    'samAccountName',
+                    'postalCode',
                     ])
 
     if not users:
@@ -45,6 +46,10 @@ for ou in ous:
     for user in users:
         if utils.ou(user['dn']) in ou_ignore:
             assignment.ad.log('Ignoring %s in ignored OU' % user['dn'])
+            continue
+
+        if user.element['attributes']['postalCode'] and user.element['attributes']['postalCode'][0] == 'M':
+            assignment.ad.log('Ignoring %s with ignore flag' % user['dn'])
             continue
 
         try:
