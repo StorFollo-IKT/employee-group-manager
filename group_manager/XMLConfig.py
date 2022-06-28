@@ -1,11 +1,12 @@
 import os.path
-from xml.etree import ElementTree
+
+import lxml.etree
 
 
 class XMLConfig:
     def __init__(self, file):
         self.dirname = os.path.dirname(os.path.realpath(file))
-        self.config = ElementTree.parse(file).getroot()
+        self.config = lxml.etree.parse(file)
 
     def text(self, path):
         return self.config.find(path).text
