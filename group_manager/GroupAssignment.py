@@ -13,8 +13,8 @@ class GroupAssignment:
     """All assignable groups"""
     fp_log = None
 
-    def __init__(self, log_file):
-        config = XMLConfig(os.path.join(os.path.dirname(__file__), 'config.xml'))
+    def __init__(self, log_file, config_file, group_file):
+        config = XMLConfig(config_file)
         self.fp_log = open(log_file, 'x')
         self.ad = ADToolsLog(self.fp_log)
         self.ad.debug = True
@@ -22,7 +22,7 @@ class GroupAssignment:
                         config.text('dc/password'))
 
         self.config = config
-        self.group_config = XMLGroupConfig(os.path.join(os.path.dirname(__file__), 'groups.xml'))
+        self.group_config = XMLGroupConfig(group_file)
         self.group_dns = self.group_config.attribute_list('group', 'dn')
         self.groups = self.resolve_groups(self.group_dns, True)
 

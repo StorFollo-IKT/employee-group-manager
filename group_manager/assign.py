@@ -1,19 +1,23 @@
 import os.path
+import sys
+from datetime import datetime
 from typing import List
 
+from GroupAssignment import GroupAssignment
+from XMLConfig import XMLConfig
 from adtools import utils
 from adtools.objects import User
-
-from GroupAssignment import GroupAssignment
-from XMLConfig import XMLConfig, XMLGroupConfig
 from stamdata3.StamdataExceptions import ResourceNotFound
 from stamdata3.stamdata3 import Stamdata3
 
-path = os.path.join(os.path.dirname(__file__), 'config.xml')
+if len(sys.argv) == 2:
+    config_file = os.path.join(os.path.dirname(__file__), 'config.xml')
+    group_config_file = os.path.join(os.path.dirname(__file__), 'config_groups.xml')
+else:
+    config_file = os.path.join(sys.argv[2])
+    group_config_file = os.path.join(sys.argv[1])
 
-config = XMLConfig(path)
-group_config = XMLGroupConfig(os.path.join(os.path.dirname(__file__), 'groups.xml'))
-
+config = XMLConfig(config_file)
 stamdata = Stamdata3(config.file('files/stamdata3'))
 org_ignore = config.list('ignore/organisation')
 ou_ignore = config.list('ignore/ou')
@@ -21,10 +25,7 @@ ou_ignore = config.list('ignore/ou')
 log_file = os.path.join(os.path.dirname(__file__), 'logs',
                         'Group assignment %s.log' % datetime.now().strftime('%Y-%m-%d %H%M'))
 
-assignment = GroupAssignment(log_file)
-
-groups = group_config.attribute_list('group', 'dn')
-groups_obj = assignment.resolve_groups(groups)
+assignment = GroupAssignment(log_file, config_file, group_config_file)
 
 ous = assignment.get_child_ous()
 for ou in ous:
