@@ -1,5 +1,5 @@
+import argparse
 import os.path
-import sys
 from datetime import datetime
 from typing import List
 
@@ -10,12 +10,38 @@ from adtools.objects import User
 from stamdata3.StamdataExceptions import ResourceNotFound
 from stamdata3.stamdata3 import Stamdata3
 
-if len(sys.argv) == 2:
-    config_file = os.path.join(os.path.dirname(__file__), 'config.xml')
-    group_config_file = os.path.join(os.path.dirname(__file__), 'config_groups.xml')
+parser = argparse.ArgumentParser(description='Assign groups')
+
+parser.add_argument('--groups', dest='groups', nargs='?',
+                    help='Group configuration file', required=True)
+parser.add_argument('--config', metavar='C', type=str, nargs='?',
+                    help='Base configuration file', required=False)
+
+args = parser.parse_args()
+args = vars(args)
+
+config_folder = os.path.join(os.path.dirname(__file__), 'config')
+if args['config']:
+    if os.path.isfile(args['config']):
+        config_file = os.path.realpath(args['config'])
+    else:
+        config_file = os.path.join(config_folder, args['config'])
 else:
-    config_file = os.path.join(sys.argv[2])
-    group_config_file = os.path.join(sys.argv[1])
+    config_file = os.path.join(os.path.dirname(__file__), 'config.xml')
+
+if not os.path.exists(config_file):
+    raise FileNotFoundError(config_file)
+
+if args['groups']:
+    if os.path.isfile(args['groups']):
+        group_config_file = os.path.realpath(args['groups'])
+    else:
+        group_config_file = os.path.join(config_folder, args['groups'])
+else:
+    group_config_file = os.path.join(config_folder, 'config_groups.xml')
+
+if not os.path.exists(group_config_file):
+    raise FileNotFoundError(group_config_file)
 
 config = XMLConfig(config_file)
 stamdata = Stamdata3(config.file('files/stamdata3'))
