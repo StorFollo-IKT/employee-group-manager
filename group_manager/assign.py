@@ -27,7 +27,7 @@ if args['config']:
     else:
         config_file = os.path.join(config_folder, args['config'])
 else:
-    config_file = os.path.join(os.path.dirname(__file__), 'config.xml')
+    config_file = os.path.join(config_folder, 'config.xml')
 
 if not os.path.exists(config_file):
     raise FileNotFoundError(config_file)
