@@ -22,7 +22,11 @@ stamdata = Stamdata3(config.file('files/stamdata3'))
 org_ignore = config.list('ignore/organisation')
 ou_ignore = config.list('ignore/ou')
 
-log_file = os.path.join(os.path.dirname(__file__), 'logs',
+log_folder = os.path.join(os.path.dirname(__file__), 'logs')
+if not os.path.exists(log_folder):
+    os.mkdir(log_folder)
+
+log_file = os.path.join(log_folder,
                         'Group assignment %s.log' % datetime.now().strftime('%Y-%m-%d %H%M'))
 
 assignment = GroupAssignment(log_file, config_file, group_config_file)
