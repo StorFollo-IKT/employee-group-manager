@@ -53,7 +53,9 @@ if not os.path.exists(log_folder):
     os.mkdir(log_folder)
 
 log_file = os.path.join(log_folder,
-                        'Group assignment %s.log' % datetime.now().strftime('%Y-%m-%d %H%M'))
+                        'Group assignment %s %s.log' % (datetime.now().strftime('%Y-%m-%d %H%M'),
+                                                        os.path.basename(group_config_file))
+                        )
 
 assignment = GroupAssignment(log_file, config_file, group_config_file)
 
