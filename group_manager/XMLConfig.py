@@ -39,3 +39,12 @@ class XMLGroupConfig(XMLConfig):
             return []
 
         return list(map(lambda element: element.get('dn'), groups))
+
+    def group_exclusions(self, group_dn: str):
+        """
+        Check if the group excludes other groups
+        :param group_dn: Group DN to check
+        :return: DNs of excluded groups
+        """
+        groups = self.config.xpath('group[@dn="%s"]/not/group' % group_dn)
+        return list(map(lambda element: element.get('dn'), groups))

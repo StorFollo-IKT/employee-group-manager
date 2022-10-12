@@ -52,6 +52,14 @@ class GroupAssignment:
             org = employment.relation('ORGANIZATIONAL_UNIT').value
             groups += self.group_config.organisation_groups(org, 'all', employment.post_code)
 
+        for group in groups:
+            exclusions = self.group_config.group_exclusions(group)
+            for exclusion in exclusions:
+                try:
+                    groups.remove(exclusion)
+                except ValueError:
+                    pass
+
         return self.resolve_groups(groups)
 
     def resolve_groups(self, groups, return_dict=False):
@@ -87,9 +95,6 @@ class GroupAssignment:
 
         for group in self.groups.values():
             if group.has_member(user) and group.dn not in expected_group_dns:
-                print(
-                    'Managed group %s is not valid for %s with main position at %s' % (
-                        group, user['displayName'], 'org'))
                 group.remove_member(user)
 
         for group in expected_groups:
