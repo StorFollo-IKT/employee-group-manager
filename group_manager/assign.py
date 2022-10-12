@@ -70,7 +70,7 @@ for ou in ous:
                     'displayName',
                     'samAccountName',
                     'postalCode',
-                    ])
+                    ], pagination=True)
 
     if not users:
         continue
